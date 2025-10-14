@@ -1,4 +1,5 @@
-const modalStyles = `
+const style = document.createElement('style');
+style.textContent = `
 .modal {
   display: none;
   position: fixed;
@@ -11,7 +12,8 @@ const modalStyles = `
   align-items: center;
   justify-content: center;
 }
-.previewContent {
+
+#previewContent {
   display: flex;
   align-items: center;
   background: #fff;
@@ -21,6 +23,7 @@ const modalStyles = `
   max-width: 1000px;
   max-height: 90%;
 }
+
 .preview-image-container {
   position: relative;
   overflow: hidden;
@@ -32,18 +35,21 @@ const modalStyles = `
   max-width: 100%;
   max-height: 100%;
 }
+
 .modal-preview-image {
   max-width: 100%;
   max-height: 100%;
   transition: transform 0.3s ease;
 }
-.previewButtons {
+
+#previewButtons {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
   margin-left: 40px;
 }
+
 .modal-btn {
   background-color: blue;
   color: white;
@@ -54,18 +60,22 @@ const modalStyles = `
   transition: opacity 0.2s ease;
   font-size: 1rem;
 }
+
 .modal-btn:hover {
   opacity: 0.8;
 }
+
 #modalZoomOut {
   display: none;
 }
-`;
 
-const styleSheet = document.createElement("style");
-styleSheet.type = "text/css";
-styleSheet.innerText = modalStyles;
-document.head.appendChild(styleSheet);
+`;
+document.head.appendChild(style);
+
+
+  
+
+  
 
 let currentZoomLevel = 1;
 
