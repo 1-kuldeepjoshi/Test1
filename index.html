@@ -97,24 +97,26 @@
         Add More Image
       </button>
     </div>
-
-    <!-- Preview Modal -->
-    <div id="previewModal" class="modal">
-      <div id="previewContent">
-        <div class="preview-image-container">
-          <img class="modal-preview-image" id="previewModalImage" />
-        </div>
-        <div id="previewButtons">
-  <div class="zoom-controls">
-    <button id="modalZoomIn" class="modal-btn">Zoom In</button>
-    <button id="modalZoomOut" class="modal-btn">Zoom Out</button>
+<!-- Modal wrapper -->
+<div id="previewModal" class="modal">
+  <div id="previewContent">
+    <div class="preview-image-container">
+      <img
+        id="previewModalImage"
+        class="modal-preview-image"
+        src=""
+        alt="Image Preview"
+      />
+    </div>
+    <div id="previewButtons">
+      <button id="modalZoomIn" class="modal-btn">Zoom In</button>
+      <button id="modalZoomOut" class="modal-btn">Zoom Out</button>
+      <button id="modalEdit" class="modal-btn">Edit</button>
+      <button id="modalClose" class="modal-btn">Close</button>
+    </div>
   </div>
-  <button id="modalEdit" class="modal-btn">Edit</button>
-  <button id="modalClose" class="modal-btn">Close</button>
 </div>
 
-      </div>
-    </div>
 
     <!-- Local Script -->
     <script src="script.js"></script>
