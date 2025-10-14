@@ -320,6 +320,14 @@ h4.drop {
   margin-left: 40px;
 }
 
+.zoom-controls {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+}
+
+
 .modal-btn {
   background-color: blue;
   color: white;
