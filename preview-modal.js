@@ -1,3 +1,72 @@
+const modalStyles = `
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  align-items: center;
+  justify-content: center;
+}
+.previewContent {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 1000px;
+  max-height: 90%;
+}
+.preview-image-container {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 800px;
+  height: 600px;
+  max-width: 100%;
+  max-height: 100%;
+}
+.modal-preview-image {
+  max-width: 100%;
+  max-height: 100%;
+  transition: transform 0.3s ease;
+}
+.previewButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-left: 40px;
+}
+.modal-btn {
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 20px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  font-size: 1rem;
+}
+.modal-btn:hover {
+  opacity: 0.8;
+}
+#modalZoomOut {
+  display: none;
+}
+`;
+
+const styleSheet = document.createElement("style");
+styleSheet.type = "text/css";
+styleSheet.innerText = modalStyles;
+document.head.appendChild(styleSheet);
+
 let currentZoomLevel = 1;
 
 // Open preview modal with selected image
