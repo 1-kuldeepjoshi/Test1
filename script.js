@@ -1,7 +1,6 @@
 let imageNumber = 0;
 let uploadedImages = [];
 let pdfBytes = null;
-let currentZoomLevel = 1;
 
 // Handle file uploads
 function handleFileUpload(event) {
@@ -236,47 +235,8 @@ function updateImageOrder() {
   });
 }
 
-// Modal Functions
-function previewImage(imgElem) {
-  const modal = document.getElementById("previewModal");
-  const modalImg = document.getElementById("previewModalImage");
-  modalImg.src = imgElem.src;
-  currentZoomLevel = 1;
-  modalImg.style.transform = "scale(1)";
-  modal.style.display = "flex";
-}
-
-function closePreviewModal() {
-  document.getElementById("previewModal").style.display = "none";
-}
-
-function zoomIn() {
-  if (currentZoomLevel < 3) {
-    currentZoomLevel += 0.2;
-    document.getElementById("previewModalImage").style.transform = `scale(${currentZoomLevel})`;
-  }
-  if (currentZoomLevel > 1)
-    document.getElementById("modalZoomOut").style.display = "block";
-}
-
-function zoomOut() {
-  if (currentZoomLevel > 1) {
-    currentZoomLevel -= 0.2;
-    if (currentZoomLevel < 1) currentZoomLevel = 1;
-    document.getElementById("previewModalImage").style.transform = `scale(${currentZoomLevel})`;
-  }
-  if (currentZoomLevel === 1)
-    document.getElementById("modalZoomOut").style.display = "none";
-}
-
+// Initialize SortableJS
 document.addEventListener("DOMContentLoaded", () => {
   const uploadedImagesContainer = document.getElementById("uploadedImagesContainer");
   Sortable.create(uploadedImagesContainer, { animation: 150, onEnd: updateImageOrder });
-
-  document.getElementById("modalClose").addEventListener("click", closePreviewModal);
-  document.getElementById("modalEdit").addEventListener("click", () =>
-    editImage(document.getElementById("previewModalImage").src)
-  );
-  document.getElementById("modalZoomIn").addEventListener("click", zoomIn);
-  document.getElementById("modalZoomOut").addEventListener("click", zoomOut);
 });
