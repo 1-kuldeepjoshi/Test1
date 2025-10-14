@@ -66,7 +66,7 @@ style.textContent = `
 }
 
 #modalZoomOut {
-  display: none;
+  display: block;
 }
 
 `;
