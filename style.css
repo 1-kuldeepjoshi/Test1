@@ -322,7 +322,7 @@ h4.drop {
 
 .zoom-controls {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 10px;
   justify-content: center;
 }
