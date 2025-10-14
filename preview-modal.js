@@ -1,3 +1,4 @@
+// 1. Inject styles into the document head
 const style = document.createElement('style');
 style.textContent = `
 .modal {
@@ -42,12 +43,19 @@ style.textContent = `
   transition: transform 0.3s ease;
 }
 
+/* Stack buttons vertically */
 #previewButtons {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
   margin-left: 40px;
+}
+
+/* Always show both zoom buttons */
+#modalZoomIn,
+#modalZoomOut {
+  display: block !important;
 }
 
 .modal-btn {
@@ -64,63 +72,65 @@ style.textContent = `
 .modal-btn:hover {
   opacity: 0.8;
 }
-
-#modalZoomOut {
-  display: block;
-}
-
 `;
 document.head.appendChild(style);
 
-
-  
-
-  
-
+// 2. Zoom state
 let currentZoomLevel = 1;
 
-// Open preview modal with selected image
+// 3. Open preview modal and reset zoom
 function previewImage(imgElem) {
-  const modal = document.getElementById("previewModal");
-  const modalImg = document.getElementById("previewModalImage");
+  const modal = document.getElementById('previewModal');
+  const modalImg = document.getElementById('previewModalImage');
+
   modalImg.src = imgElem.src;
   currentZoomLevel = 1;
-  modalImg.style.transform = "scale(1)";
-  modal.style.display = "flex";
+  modalImg.style.transform = 'scale(1)';
+  modal.style.display = 'flex';
 }
 
-// Close preview modal
+// 4. Close modal
 function closePreviewModal() {
-  document.getElementById("previewModal").style.display = "none";
+  document.getElementById('previewModal').style.display = 'none';
 }
 
-// Zoom In
+// 5. Zoom In
 function zoomIn() {
   if (currentZoomLevel < 3) {
     currentZoomLevel += 0.2;
-    document.getElementById("previewModalImage").style.transform = `scale(${currentZoomLevel})`;
+    document
+      .getElementById('previewModalImage')
+      .style.transform = \`scale(\${currentZoomLevel})\`;
   }
-  if (currentZoomLevel > 1)
-    document.getElementById("modalZoomOut").style.display = "block";
 }
 
-// Zoom Out
+// 6. Zoom Out
 function zoomOut() {
   if (currentZoomLevel > 1) {
-    currentZoomLevel -= 0.2;
-    if (currentZoomLevel < 1) currentZoomLevel = 1;
-    document.getElementById("previewModalImage").style.transform = `scale(${currentZoomLevel})`;
+    currentZoomLevel = Math.max(1, currentZoomLevel - 0.2);
+    document
+      .getElementById('previewModalImage')
+      .style.transform = \`scale(\${currentZoomLevel})\`;
   }
-  if (currentZoomLevel === 1)
-    document.getElementById("modalZoomOut").style.display = "none";
 }
 
-// Setup modal buttons when DOM is ready
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("modalClose")?.addEventListener("click", closePreviewModal);
-  document.getElementById("modalEdit")?.addEventListener("click", () =>
-    editImage(document.getElementById("previewModalImage").src)
-  );
-  document.getElementById("modalZoomIn")?.addEventListener("click", zoomIn);
-  document.getElementById("modalZoomOut")?.addEventListener("click", zoomOut);
+// 7. Wire up buttons once DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  document
+    .getElementById('modalClose')
+    .addEventListener('click', closePreviewModal);
+
+  document
+    .getElementById('modalEdit')
+    .addEventListener('click', () =>
+      editImage(document.getElementById('previewModalImage').src)
+    );
+
+  document
+    .getElementById('modalZoomIn')
+    .addEventListener('click', zoomIn);
+
+  document
+    .getElementById('modalZoomOut')
+    .addEventListener('click', zoomOut);
 });
