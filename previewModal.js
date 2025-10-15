@@ -14,42 +14,40 @@
     }
     /* White content box */
     .modal-content {
-      background: #fff;
-      padding: 16px;
-      border-radius: 8px;
-      max-width: 90vw;
-      max-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    /* Image wrapper */
-    .preview-image-container {
-      max-width: 80vw;
-      max-height: 70vh;
-      overflow: auto;
-    }
+     /* Modal content: stack image then buttons */
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.preview-image-container {
+  width: 100%;
+  max-width: 80vw;
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.preview-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+  width: 100%;             /* span full width */
+  flex-wrap: wrap;         /* wrap if screen is narrow */
+}
+
+.modal-btn {
+  padding: 8px 16px;
+  font-size: 0.95rem;
+}
+
     .modal-preview-image {
       max-width: 100%; max-height: 100%;
       transform-origin: center center;
       transition: transform 0.2s ease;
     }
-    /* Buttons row */
-    .preview-buttons {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-    }
-    .modal-btn {
-      padding: 6px 12px;
-      border: none;
-      background: #007acc;
-      color: #fff;
-      font-size: 0.9rem;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .modal-btn:hover {
+   .modal-btn:hover {
       background: #005fa3;
     }
   `.trim()
