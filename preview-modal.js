@@ -15,6 +15,7 @@ style.textContent = `
 
 #previewContent {
   display: flex;
+  flex-direction: column;
   align-items: center;
   background: #fff;
   padding: 30px;
@@ -23,6 +24,14 @@ style.textContent = `
   max-width: 1000px;
   max-height: 90%;
 }
+#previewButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0 0;  /* top margin to separate from image */
+}
+
 
 .preview-image-container {
   position: relative;
@@ -40,14 +49,6 @@ style.textContent = `
   max-width: 100%;
   max-height: 100%;
   transition: transform 0.3s ease;
-}
-
-#previewButtons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  margin-left: 40px;
 }
 
 .modal-btn {
