@@ -408,21 +408,10 @@
         Add More Image
       </button>
     </div>
+<!-- New Modal that loads content dynamically -->
+<div id="previewModal" class="modal"></div>
 
-    <!-- Modal for Previewing Images -->
-    <div id="previewModal" class="modal">
-      <div id="previewContent">
-        <!-- Preview Image Container -->
-        <div class="preview-image-container">
-          <img class="modal-preview-image" id="previewModalImage" />
-        </div>
-        <!-- Right side controls -->
-        <div id="previewButtons">
-          <button id="modalZoomIn" class="modal-btn">Zoom In</button>
-          <button id="modalZoomOut" class="modal-btn">Zoom Out</button>
-          <button id="modalEdit" class="modal-btn">Edit</button>
-          <button id="modalClose" class="modal-btn">Close</button>
-        </div>
+    
       </div>
     </div>
 
@@ -795,6 +784,56 @@
           }
         });
       }
+      // Preview the selected image by loading modal from another HTML page
+function previewImage(imgElem) {
+  const modal = document.getElementById("previewModal");
+
+  // Load external modal HTML
+  fetch("preview.html")
+    .then(response => response.text())
+    .then(html => {
+      modal.innerHTML = html;
+      modal.style.display = "flex";
+
+      // Once loaded, set image and attach event listeners
+      const modalImg = modal.querySelector("#previewModalImage");
+      modalImg.src = imgElem.src;
+
+      // Setup event handlers inside the loaded modal
+      modal.querySelector("#modalClose")?.addEventListener("click", () => {
+        modal.style.display = "none";
+      });
+
+      modal.querySelector("#modalEdit")?.addEventListener("click", () => {
+        editImage(modalImg.src);
+      });
+
+      let currentZoomLevel = 1;
+      modal.querySelector("#modalZoomIn")?.addEventListener("click", () => {
+        if (currentZoomLevel < 3) {
+          currentZoomLevel += 0.2;
+          modalImg.style.transform = `scale(${currentZoomLevel})`;
+          modal.querySelector("#modalZoomOut").style.display = "block";
+        }
+      });
+
+      modal.querySelector("#modalZoomOut")?.addEventListener("click", () => {
+        if (currentZoomLevel > 1) {
+          currentZoomLevel -= 0.2;
+          if (currentZoomLevel < 1) currentZoomLevel = 1;
+          modalImg.style.transform = `scale(${currentZoomLevel})`;
+          if (currentZoomLevel === 1) {
+            modal.querySelector("#modalZoomOut").style.display = "none";
+          }
+        }
+      });
+    })
+    .catch(err => {
+      console.error("Failed to load modal:", err);
+      alert("Error loading preview modal!");
+    });
+}
+
 
       // Initialize SortableJS for drag-and-drop functionality and add modal button events after the DOM loads.
       document.addEventListener("DOMContentLoaded", function () {
