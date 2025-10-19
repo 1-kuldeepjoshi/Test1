@@ -499,6 +499,29 @@
             });
 
             imageContainer.appendChild(imgElem);
+            <!-- Load preview modal dynamically -->
+  async function loadPreviewModal() {
+    try {
+      const response = await fetch("preview.html");
+      const html = await response.text();
+      document.body.insertAdjacentHTML("beforeend", html);
+
+      // Attach event listeners after loading modal
+      document.getElementById("modalClose").addEventListener("click", closePreviewModal);
+      document.getElementById("modalEdit").addEventListener("click", function () {
+        editImage(document.getElementById("previewModalImage").src);
+      });
+      document.getElementById("modalZoomIn").addEventListener("click", zoomIn);
+      document.getElementById("modalZoomOut").addEventListener("click", zoomOut);
+    } catch (error) {
+      console.error("Error loading preview modal:", error);
+    }
+  }
+
+  // Load modal once page finishes loading
+  document.addEventListener("DOMContentLoaded", loadPreviewModal);
+
+
 
             // Create element for the file name.
             const nameElem = document.createElement("div");
