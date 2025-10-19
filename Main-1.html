@@ -217,14 +217,23 @@
         height: auto;
       }
       .image-actions {
-        display: none;
-        flex-direction: column;
-        gap: 8px;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 2;
-      }
+  opacity: 0;
+  pointer-events: none;
+  flex-direction: column;
+  gap: 8px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  transition: opacity 0.2s ease;
+}
+
+/* Show buttons when hovering over image card */
+.uploaded-image:hover .image-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
       .action-btn {
         background-color: rgba(0, 0, 0, 0.75);
         border: none;
