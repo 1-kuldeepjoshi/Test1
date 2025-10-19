@@ -12,7 +12,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-    <!-- Styles -->
     <style>
       /* General styling */
       body {
@@ -46,7 +45,6 @@
         font-weight: bold;
         color: #2c3e50;
       }
-      /* Heading underneath taskbar */
       .page-heading {
         text-align: center;
         font-size: 2rem;
@@ -74,7 +72,6 @@
       #downloadBtn {
         display: none;
       }
-      /* Main upload/drop container with BLUE border */
       .upload-container {
         display: flex;
         flex-direction: column;
@@ -85,7 +82,6 @@
         border: 2px solid blue;
         border-radius: 10px;
       }
-      /* New description container */
       .description-container {
         text-align: center;
         padding: 1rem;
@@ -93,7 +89,6 @@
         border-radius: 8px;
         margin: 0 auto 2rem;
       }
-      /* The drop/upload input area */
       .inp-container {
         cursor: pointer;
         position: relative;
@@ -133,7 +128,6 @@
         border-radius: 0.2rem;
         font-weight: 600;
       }
-      /* Container for uploaded images with a grey background */
       .uploaded-images-container {
         display: flex;
         flex-wrap: wrap;
@@ -145,8 +139,6 @@
         margin-top: 2rem;
         min-height: 200px;
       }
-      /* Container around each image with a black background.
-         Added min-height ensures small images still reserve space for actions. */
       .image-container {
         background-color: #000;
         padding: 5px;
@@ -157,7 +149,6 @@
         margin-bottom: 5px;
         min-height: 200px;
       }
-      /* Uploaded image wrapper */
       .uploaded-image {
         position: relative;
         display: flex;
@@ -168,8 +159,7 @@
         border-radius: 5px;
         padding: 5px;
         box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
-          rgba(17, 17, 26, 0.1) 0px 8px 24px,
-          rgba(124, 124, 145, 0px 16px 48px);
+          rgba(17, 17, 26, 0.1) 0px 8px 24px;
         cursor: grab;
         overflow: hidden;
       }
@@ -180,7 +170,6 @@
         transition: transform 0.3s ease;
         transform-origin: center;
       }
-      /* Image number and file name styling */
       .uploaded-image-number {
         font-weight: bold;
         margin-bottom: 5px;
@@ -211,7 +200,6 @@
       .add-image-btn:hover {
         background-color: #0056b3;
       }
-      /* Loader Overlay Styling */
       .loader-overlay {
         position: fixed;
         top: 0;
@@ -228,7 +216,6 @@
         max-width: 150px;
         height: auto;
       }
-      /* Action buttons styling (updated UI with shadow and transitions) */
       .image-actions {
         display: none;
         flex-direction: column;
@@ -252,18 +239,15 @@
         cursor: pointer;
         font-size: 20px;
         padding: 5px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
       .action-btn:hover {
         transform: scale(1.1);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
       }
       .btn-label {
         font-size: 10px;
         margin-top: 2px;
       }
-      /* ---------- Preview Modal Styles (Larger Version) ---------- */
       .modal {
         display: none;
         position: fixed;
@@ -323,12 +307,12 @@
       .modal-btn:hover {
         opacity: 0.8;
       }
-      /* Initially hide the Zoom Out button */
       #modalZoomOut {
         display: none;
       }
     </style>
   </head>
+
   <body>
     <!-- Loader Overlay -->
     <div id="loader-overlay" class="loader-overlay">
@@ -339,7 +323,7 @@
       />
     </div>
 
-    <!-- Taskbar with Logo -->
+    <!-- Taskbar -->
     <div class="taskbar">
       <div class="logo">
         <img
@@ -350,10 +334,8 @@
       </div>
     </div>
 
-    <!-- New JPG to PDF heading under taskbar -->
     <h2 class="page-heading">JPG to PDF</h2>
 
-    <!-- Buttons Container -->
     <div class="buttons-container">
       <button id="convertBtn" style="display: none;" onclick="convertToPdf()">
         SAVE AS PDF
@@ -363,7 +345,6 @@
       </button>
     </div>
 
-    <!-- Upload Container with blue border -->
     <div class="upload-container" id="uploadContainer">
       <div class="inp-container">
         <input
@@ -374,28 +355,21 @@
           accept="image/*"
         />
         <h4 class="drop">DRAG & DROP OR</h4>
-        <p>
-          <i class="fa fa-file-image-o fa-4x img-icon"></i>
-        </p>
+        <p><i class="fa fa-file-image-o fa-4x img-icon"></i></p>
         <label for="upload-file" id="custom-file">CHOOSE FILES</label>
       </div>
     </div>
 
-    <!-- Description Container Below Upload Section -->
     <div class="description-container">
-      <p class="upload-description">
-        Select one or more JPG images to convert them into a single PDF.
-      </p>
+      <p>Select one or more JPG images to convert them into a single PDF.</p>
     </div>
 
-    <!-- Container for Displaying Uploaded Images -->
     <div
       class="uploaded-images-container"
       id="uploadedImagesContainer"
       style="display: none;"
     ></div>
 
-    <!-- Add More Image Button -->
     <div
       id="addImageBtnContainer"
       class="add-image-btn-container"
@@ -409,430 +383,273 @@
       </button>
     </div>
 
-    <!-- Modal for Previewing Images -->
-    <div id="previewModal" class="modal">
-      <div id="previewContent">
-        <!-- Preview Image Container -->
-        <div class="preview-image-container">
-          <img class="modal-preview-image" id="previewModalImage" />
-        </div>
-        <!-- Right side controls -->
-        <div id="previewButtons">
-          <button id="modalZoomIn" class="modal-btn">Zoom In</button>
-          <button id="modalZoomOut" class="modal-btn">Zoom Out</button>
-          <button id="modalEdit" class="modal-btn">Edit</button>
-          <button id="modalClose" class="modal-btn">Close</button>
-        </div>
-      </div>
-    </div>
+    <!-- 🔹 Dynamic modal loader -->
+    <script>
+      async function loadPreviewModal() {
+        try {
+          const res = await fetch("preview.html");
+          const html = await res.text();
+          document.body.insertAdjacentHTML("beforeend", html);
 
-    <!-- JavaScript -->
+          document
+            .getElementById("modalClose")
+            .addEventListener("click", closePreviewModal);
+          document
+            .getElementById("modalEdit")
+            .addEventListener("click", () =>
+              editImage(document.getElementById("previewModalImage").src)
+            );
+          document
+            .getElementById("modalZoomIn")
+            .addEventListener("click", zoomIn);
+          document
+            .getElementById("modalZoomOut")
+            .addEventListener("click", zoomOut);
+        } catch (err) {
+          console.error("Error loading modal:", err);
+        }
+      }
+      document.addEventListener("DOMContentLoaded", loadPreviewModal);
+    </script>
+
+    <!-- Main JS -->
     <script>
       let imageNumber = 0;
       let uploadedImages = [];
       let pdfBytes = null;
       let currentZoomLevel = 1;
 
-      // Handle file uploads and display images.
       function handleFileUpload(event) {
         const files = Array.from(event.target.files);
-        const uploadedImagesContainer = document.getElementById("uploadedImagesContainer");
-        const uploadContainer = document.getElementById("uploadContainer");
-        const addImageBtnContainer = document.getElementById("addImageBtnContainer");
-        const descriptionContainer = document.querySelector(".description-container");
+        const container = document.getElementById("uploadedImagesContainer");
+        const upload = document.getElementById("uploadContainer");
+        const desc = document.querySelector(".description-container");
+        const addBtn = document.getElementById("addImageBtnContainer");
 
-        // Hide the upload container and description container,
-        // then show uploaded images container and Add More button.
-        uploadContainer.style.display = "none";
-        descriptionContainer.style.display = "none";
-        uploadedImagesContainer.style.display = "flex";
-        addImageBtnContainer.style.display = "flex";
+        upload.style.display = "none";
+        desc.style.display = "none";
+        container.style.display = "flex";
+        addBtn.style.display = "flex";
 
-        // Use Promise.all to maintain file order.
-        const fileReadPromises = files.map((file, index) => {
-          return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-              resolve({ file, dataURL: e.target.result, index });
-            };
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
+        const promises = files.map((file, i) => {
+          return new Promise((resolve) => {
+            const r = new FileReader();
+            r.onload = (e) => resolve({ file, dataURL: e.target.result, i });
+            r.readAsDataURL(file);
           });
         });
 
-        Promise.all(fileReadPromises).then((results) => {
-          results.sort((a, b) => a.index - b.index);
-          results.forEach((result) => {
-            imageNumber++; // Unique ID for each image.
-            // Create the outer wrapper for an uploaded image.
-            const imageWrapper = document.createElement("div");
-            imageWrapper.classList.add("uploaded-image");
-            imageWrapper.setAttribute("data-id", imageNumber);
+        Promise.all(promises).then((res) => {
+          res.sort((a, b) => a.i - b.i);
+          res.forEach((r) => {
+            imageNumber++;
+            const wrap = document.createElement("div");
+            wrap.classList.add("uploaded-image");
+            wrap.setAttribute("data-id", imageNumber);
 
-            // Create element for image number.
-            const imageNumberElem = document.createElement("div");
-            imageNumberElem.classList.add("uploaded-image-number");
-            imageNumberElem.innerText = `#${imageNumber}`;
+            const num = document.createElement("div");
+            num.classList.add("uploaded-image-number");
+            num.innerText = `#${imageNumber}`;
 
-            // Create a container for the image.
-            const imageContainer = document.createElement("div");
-            imageContainer.classList.add("image-container");
+            const imgContainer = document.createElement("div");
+            imgContainer.classList.add("image-container");
 
-            // Create the image element.
-            const imgElem = document.createElement("img");
-            imgElem.src = result.dataURL;
-            imgElem.setAttribute("data-rotation", "0");
+            const img = document.createElement("img");
+            img.src = r.dataURL;
+            img.setAttribute("data-rotation", "0");
 
-            // Once the image loads, store its displayed dimensions.
-            imgElem.onload = function () {
-              const compStyle = window.getComputedStyle(imgElem);
-              imgElem.dataset.origWidth = compStyle.width;
-              imgElem.dataset.origHeight = compStyle.height;
-              imageContainer.style.width = compStyle.width;
-              imageContainer.style.height = compStyle.height;
+            img.onload = function () {
+              const style = window.getComputedStyle(img);
+              img.dataset.origWidth = style.width;
+              img.dataset.origHeight = style.height;
+              imgContainer.style.width = style.width;
+              imgContainer.style.height = style.height;
             };
 
-            // Toggle action buttons on image click.
-            imgElem.addEventListener("click", function (e) {
+            img.addEventListener("click", (e) => {
               e.stopPropagation();
-              toggleActionButtons(imgElem);
+              toggleActionButtons(img);
             });
 
-            imageContainer.appendChild(imgElem);
-            <!-- Load preview modal dynamically -->
-  async function loadPreviewModal() {
-    try {
-      const response = await fetch("preview.html");
-      const html = await response.text();
-      document.body.insertAdjacentHTML("beforeend", html);
+            imgContainer.appendChild(img);
+            const name = document.createElement("div");
+            name.classList.add("uploaded-image-name");
+            name.innerText = r.file.name;
 
-      // Attach event listeners after loading modal
-      document.getElementById("modalClose").addEventListener("click", closePreviewModal);
-      document.getElementById("modalEdit").addEventListener("click", function () {
-        editImage(document.getElementById("previewModalImage").src);
-      });
-      document.getElementById("modalZoomIn").addEventListener("click", zoomIn);
-      document.getElementById("modalZoomOut").addEventListener("click", zoomOut);
-    } catch (error) {
-      console.error("Error loading preview modal:", error);
-    }
-  }
+            wrap.append(num, imgContainer, name);
 
-  // Load modal once page finishes loading
-  document.addEventListener("DOMContentLoaded", loadPreviewModal);
+            const actions = document.createElement("div");
+            actions.classList.add("image-actions");
 
-
-
-            // Create element for the file name.
-            const nameElem = document.createElement("div");
-            nameElem.classList.add("uploaded-image-name");
-            nameElem.innerText = result.file.name;
-
-            // Append elements (number, image, file name) to the wrapper.
-            imageWrapper.appendChild(imageNumberElem);
-            imageWrapper.appendChild(imageContainer);
-            imageWrapper.appendChild(nameElem);
-
-            // Create Action Buttons Container.
-            const actionsDiv = document.createElement("div");
-            actionsDiv.classList.add("image-actions");
-
-            // Preview Button.
-            const previewBtn = document.createElement("button");
-            previewBtn.classList.add("action-btn");
-            previewBtn.innerHTML =
+            const preview = document.createElement("button");
+            preview.classList.add("action-btn");
+            preview.innerHTML =
               '<i class="fa fa-eye"></i><span class="btn-label">Preview</span>';
-            previewBtn.addEventListener("click", (e) => {
+            preview.onclick = (e) => {
               e.stopPropagation();
-              previewImage(imgElem);
-            });
+              previewImage(img);
+            };
 
-            // Edit Button.
-            const editBtn = document.createElement("button");
-            editBtn.classList.add("action-btn");
-            editBtn.innerHTML =
+            const edit = document.createElement("button");
+            edit.classList.add("action-btn");
+            edit.innerHTML =
               '<i class="fa fa-pencil"></i><span class="btn-label">Edit</span>';
-            editBtn.addEventListener("click", (e) => {
+            edit.onclick = (e) => {
               e.stopPropagation();
-              editImage(result.dataURL);
-            });
+              editImage(r.dataURL);
+            };
 
-            // Rotate Button.
-            const rotateBtn = document.createElement("button");
-            rotateBtn.classList.add("action-btn");
-            rotateBtn.innerHTML =
+            const rotate = document.createElement("button");
+            rotate.classList.add("action-btn");
+            rotate.innerHTML =
               '<i class="fa fa-rotate-right"></i><span class="btn-label">Rotate</span>';
-            rotateBtn.addEventListener("click", (e) => {
+            rotate.onclick = (e) => {
               e.stopPropagation();
-              rotateImage(imgElem);
-            });
+              rotateImage(img);
+            };
 
-            // Delete Button.
-            const deleteBtn = document.createElement("button");
-            deleteBtn.classList.add("action-btn");
-            deleteBtn.innerHTML =
+            const del = document.createElement("button");
+            del.classList.add("action-btn");
+            del.innerHTML =
               '<i class="fa fa-trash"></i><span class="btn-label">Delete</span>';
-            deleteBtn.addEventListener("click", (e) => {
+            del.onclick = (e) => {
               e.stopPropagation();
-              deleteImage(imageWrapper.getAttribute("data-id"));
-            });
+              deleteImage(wrap.getAttribute("data-id"));
+            };
 
-            // Append all action buttons to the actions container.
-            actionsDiv.appendChild(previewBtn);
-            actionsDiv.appendChild(editBtn);
-            actionsDiv.appendChild(rotateBtn);
-            actionsDiv.appendChild(deleteBtn);
-            imageWrapper.appendChild(actionsDiv);
-
-            // Append the image wrapper to the uploaded images container.
-            uploadedImagesContainer.appendChild(imageWrapper);
-            uploadedImages.push({
-              id: imageNumber,
-              src: result.dataURL,
-              element: imageWrapper,
-            });
+            actions.append(preview, edit, rotate, del);
+            wrap.append(actions);
+            container.appendChild(wrap);
+            uploadedImages.push({ id: imageNumber, src: r.dataURL, element: wrap });
           });
-          // Reveal the "Save as PDF" button.
           document.getElementById("convertBtn").style.display = "block";
         });
       }
 
-      // Toggle the display state of action buttons.
-      function toggleActionButtons(imgElem) {
-        document.querySelectorAll(".image-actions").forEach((div) => {
-          div.style.display = "none";
-        });
-        const wrapper = imgElem.closest(".uploaded-image");
-        const actionsDiv = wrapper.querySelector(".image-actions");
-        actionsDiv.style.display =
-          actionsDiv.style.display === "flex" ? "none" : "flex";
+      function toggleActionButtons(img) {
+        document
+          .querySelectorAll(".image-actions")
+          .forEach((a) => (a.style.display = "none"));
+        const wrap = img.closest(".uploaded-image");
+        const actions = wrap.querySelector(".image-actions");
+        actions.style.display =
+          actions.style.display === "flex" ? "none" : "flex";
       }
 
-      // Hide action buttons if click is outside an uploaded image.
-      document.addEventListener("click", function (e) {
+      document.addEventListener("click", (e) => {
         if (!e.target.closest(".uploaded-image")) {
-          document.querySelectorAll(".image-actions").forEach((el) => {
-            el.style.display = "none";
-          });
+          document
+            .querySelectorAll(".image-actions")
+            .forEach((a) => (a.style.display = "none"));
         }
       });
 
-      // Redirect to edit.html with the image data.
-      function editImage(dataURL) {
-        window.location.href = "edit.html?img=" + encodeURIComponent(dataURL);
+      function editImage(d) {
+        window.location.href = "edit.html?img=" + encodeURIComponent(d);
       }
 
-      // Convert uploaded images to PDF while applying rotation.
       async function convertToPdf() {
-  const { PDFDocument, degrees } = PDFLib;
-  if (uploadedImages.length === 0) {
-    alert("Please upload at least one image!");
-    return;
-  }
-
-  document.getElementById("loader-overlay").style.display = "flex";
-
-  try {
-    const pdfDoc = await PDFDocument.create();
-
-    for (let img of uploadedImages) {
-      const response = await fetch(img.src);
-      const imgBytes = await response.arrayBuffer();
-      const mimeMatch = img.src.match(/^data:(image\/[a-zA-Z]+);base64,/);
-
-      let embeddedImg;
-      if (mimeMatch && mimeMatch[1] === "image/png") {
-        embeddedImg = await pdfDoc.embedPng(imgBytes);
-      } else {
-        embeddedImg = await pdfDoc.embedJpg(imgBytes);
+        const { PDFDocument, degrees } = PDFLib;
+        if (uploadedImages.length === 0) return alert("Upload images first!");
+        document.getElementById("loader-overlay").style.display = "flex";
+        try {
+          const pdf = await PDFDocument.create();
+          for (const img of uploadedImages) {
+            const res = await fetch(img.src);
+            const bytes = await res.arrayBuffer();
+            const mime = img.src.match(/^data:(image\/[a-zA-Z]+);base64,/);
+            const embed =
+              mime && mime[1] === "image/png"
+                ? await pdf.embedPng(bytes)
+                : await pdf.embedJpg(bytes);
+            const el = img.element.querySelector("img");
+            const rot = parseInt(el.getAttribute("data-rotation") || "0");
+            let page, w = embed.width, h = embed.height;
+            switch (rot) {
+              case 90:
+                page = pdf.addPage([h, w]);
+                page.drawImage(embed, { x: 0, y: w, width: w, height: h, rotate: degrees(270) });
+                break;
+              case 180:
+                page = pdf.addPage([w, h]);
+                page.drawImage(embed, { x: w, y: h, width: w, height: h, rotate: degrees(180) });
+                break;
+              case 270:
+                page = pdf.addPage([h, w]);
+                page.drawImage(embed, { x: h, y: 0, width: w, height: h, rotate: degrees(90) });
+                break;
+              default:
+                page = pdf.addPage([w, h]);
+                page.drawImage(embed, { x: 0, y: 0, width: w, height: h });
+            }
+          }
+          pdfBytes = await pdf.save();
+          document.getElementById("downloadBtn").style.display = "block";
+        } catch (e) {
+          console.error(e);
+          alert("Error creating PDF.");
+        } finally {
+          document.getElementById("loader-overlay").style.display = "none";
+        }
       }
 
-      const imgElem = img.element.querySelector("img");
-      const rotation = parseInt(imgElem.getAttribute("data-rotation") || "0", 10) % 360;
-
-      let page;
-      let imgWidth = embeddedImg.width;
-      let imgHeight = embeddedImg.height;
-
-      // Rotate LEFT (counterclockwise), update canvas size + drawing coords
-      switch (rotation) {
-        case 0:
-          page = pdfDoc.addPage([imgWidth, imgHeight]);
-          page.drawImage(embeddedImg, {
-            x: 0,
-            y: 0,
-            width: imgWidth,
-            height: imgHeight,
-          });
-          break;
-        case 90: // LEFT (90° counterclockwise = 270° clockwise)
-          page = pdfDoc.addPage([imgHeight, imgWidth]);
-          page.drawImage(embeddedImg, {
-            x: 0,
-            y: imgWidth,
-            width: imgWidth,
-            height: imgHeight,
-            rotate: degrees(270),
-          });
-          break;
-        case 180:
-          page = pdfDoc.addPage([imgWidth, imgHeight]);
-          page.drawImage(embeddedImg, {
-            x: imgWidth,
-            y: imgHeight,
-            width: imgWidth,
-            height: imgHeight,
-            rotate: degrees(180),
-          });
-          break;
-        case 270: // LEFT (270° counterclockwise = 90° clockwise)
-          page = pdfDoc.addPage([imgHeight, imgWidth]);
-          page.drawImage(embeddedImg, {
-            x: imgHeight,
-            y: 0,
-            width: imgWidth,
-            height: imgHeight,
-            rotate: degrees(90),
-          });
-          break;
-        default:
-          // Fallback to 0°
-          page = pdfDoc.addPage([imgWidth, imgHeight]);
-          page.drawImage(embeddedImg, {
-            x: 0,
-            y: 0,
-            width: imgWidth,
-            height: imgHeight,
-          });
-      }
-    }
-
-    pdfBytes = await pdfDoc.save();
-    document.getElementById("downloadBtn").style.display = "block";
-  } catch (error) {
-    console.error("PDF conversion failed:", error);
-    alert("An error occurred while creating the PDF.");
-  } finally {
-    document.getElementById("loader-overlay").style.display = "none";
-  }
-}
-
-
-
-      // Trigger PDF download.
       function downloadPdf() {
-        if (pdfBytes) {
-          download(pdfBytes, "images.pdf", "application/pdf");
-        } else {
-          alert("No PDF to download!");
+        if (pdfBytes) download(pdfBytes, "images.pdf", "application/pdf");
+      }
+
+      function rotateImage(img) {
+        let r = parseInt(img.getAttribute("data-rotation") || "0");
+        r = (r + 90) % 360;
+        img.style.transform = "rotate(" + r + "deg)";
+        img.setAttribute("data-rotation", r);
+      }
+
+      function deleteImage(id) {
+        const i = uploadedImages.findIndex((x) => x.id == id);
+        if (i !== -1) {
+          uploadedImages[i].element.remove();
+          uploadedImages.splice(i, 1);
         }
       }
 
-      // Rotate the image element (visual rotation only) and update its container dimensions.
-      function rotateImage(imgElem) {
-        let currentRotation = parseInt(
-          imgElem.getAttribute("data-rotation") || "0",
-          10
-        );
-        currentRotation = (currentRotation + 90) % 360;
-        imgElem.style.transform = "rotate(" + currentRotation + "deg)";
-        imgElem.setAttribute("data-rotation", currentRotation);
-        const imageContainer = imgElem.parentElement;
-        let origWidth =
-          parseFloat(imgElem.dataset.origWidth) ||
-          parseFloat(window.getComputedStyle(imgElem).width);
-        let origHeight =
-          parseFloat(imgElem.dataset.origHeight) ||
-          parseFloat(window.getComputedStyle(imgElem).height);
-        if (currentRotation === 90 || currentRotation === 270) {
-          imageContainer.style.width = origHeight + "px";
-          imageContainer.style.height = origWidth + "px";
-        } else {
-          imageContainer.style.width = origWidth + "px";
-          imageContainer.style.height = origHeight + "px";
-        }
-      }
-
-      // Remove image from the list and update order.
-      function deleteImage(imageId) {
-        const index = uploadedImages.findIndex((img) => img.id == imageId);
-        if (index !== -1) {
-          uploadedImages[index].element.remove();
-          uploadedImages.splice(index, 1);
-          updateImageOrder();
-        }
-      }
-
-      // Preview the selected image in the modal with updated (larger) layout.
-      function previewImage(imgElem) {
+      function previewImage(img) {
         const modal = document.getElementById("previewModal");
         const modalImg = document.getElementById("previewModalImage");
-        // Set the image source and reset scale.
-        modalImg.src = imgElem.src;
+        modalImg.src = img.src;
         currentZoomLevel = 1;
         modalImg.style.transform = "scale(1)";
-        // Remove any inline sizing so the CSS governs the larger preview dimensions.
-        // (We no longer override width/height with the clicked image size.)
         modal.style.display = "flex";
       }
 
-      // Close the preview modal.
       function closePreviewModal() {
         document.getElementById("previewModal").style.display = "none";
       }
 
-      // Incrementally zoom in the previewed image.
       function zoomIn() {
         if (currentZoomLevel < 3) {
           currentZoomLevel += 0.2;
-          document.getElementById("previewModalImage").style.transform = "scale(" + currentZoomLevel + ")";
+          document.getElementById("previewModalImage").style.transform =
+            "scale(" + currentZoomLevel + ")";
         }
-        if (currentZoomLevel > 1) {
+        if (currentZoomLevel > 1)
           document.getElementById("modalZoomOut").style.display = "block";
-        }
       }
 
-      // Incrementally zoom out the previewed image.
       function zoomOut() {
         if (currentZoomLevel > 1) {
           currentZoomLevel -= 0.2;
           if (currentZoomLevel < 1) currentZoomLevel = 1;
-          document.getElementById("previewModalImage").style.transform = "scale(" + currentZoomLevel + ")";
+          document.getElementById("previewModalImage").style.transform =
+            "scale(" + currentZoomLevel + ")";
         }
-        if (currentZoomLevel === 1) {
+        if (currentZoomLevel === 1)
           document.getElementById("modalZoomOut").style.display = "none";
-        }
       }
 
-      // Update image numbers based on the current DOM order.
-      function updateImageOrder() {
-        const container = document.getElementById("uploadedImagesContainer");
-        const children = Array.from(container.children);
-        uploadedImages = children.map((child) =>
-          uploadedImages.find((img) => img.id == child.getAttribute("data-id"))
-        );
-        children.forEach((child, index) => {
-          const numberElem = child.querySelector(".uploaded-image-number");
-          if (numberElem) {
-            numberElem.innerText = `#${index + 1}`;
-          }
-        });
-      }
-
-      // Initialize SortableJS for drag-and-drop functionality and add modal button events after the DOM loads.
-      document.addEventListener("DOMContentLoaded", function () {
-        const uploadedImagesContainer = document.getElementById("uploadedImagesContainer");
-        Sortable.create(uploadedImagesContainer, {
+      document.addEventListener("DOMContentLoaded", () => {
+        Sortable.create(document.getElementById("uploadedImagesContainer"), {
           animation: 150,
-          onEnd: updateImageOrder,
         });
-
-        document.getElementById("modalClose").addEventListener("click", closePreviewModal);
-        document.getElementById("modalEdit").addEventListener("click", function () {
-          editImage(document.getElementById("previewModalImage").src);
-        });
-        document.getElementById("modalZoomIn").addEventListener("click", zoomIn);
-        document.getElementById("modalZoomOut").addEventListener("click", zoomOut);
       });
     </script>
   </body>
